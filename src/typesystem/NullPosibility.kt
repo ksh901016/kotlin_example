@@ -36,7 +36,39 @@ fun printlnShippingLabel(person: Person){
     }
 }
 
+class Person2(val firstName: String, val lastName: String){
+    override fun equals(o: Any?): Boolean{
+        // 타입이 일치하지 않으면 false
+        val otherPerson = o as? Person2 ?: return false
+        return otherPerson.firstName == firstName &&
+                otherPerson.lastName == lastName
+    }
+    override fun hashCode(): Int =
+        firstName.hashCode() * 37 + lastName.hashCode()
+}
+
+// 널 아님 단언 !!
+fun ignoreNulls(s: String?){
+    val sNotNull = s!!
+    println(sNotNull.length)
+}
+// let 함수
+fun sendEmailTo(email: String){
+    println("send to $email")
+}
+
+
+
 fun main(){
+
+    // 널이 될 수 있는 타입 불가
+    val email: String? = null
+    // sendEmailTo(email)
+    // 널 체크 필요
+    if(email != null) sendEmailTo(email)
+
+    email?.let{ email -> sendEmailTo(email) }
+
     strLen("Hello")
     strLenSafe(null)
     strLenSafe2(null)
@@ -58,5 +90,11 @@ fun main(){
     val person = Person("Corn", cornCompany)
     printlnShippingLabel(person)
 
-    printlnShippingLabel(Person("Sunghyun", null))
+    // printlnShippingLabel(Person("Sunghyun", null))
+
+    var p1 = Person2("Corn", "Kang")
+    var p2 = Person2("Corn", "Kang")
+    println(p1 == p2)
+
+    // ignoreNulls(null)
 }
